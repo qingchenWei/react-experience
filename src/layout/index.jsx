@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
 import AppHeader from "./components/AppHeader";
 import AppSided from "./components/AppSided";

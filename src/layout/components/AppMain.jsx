@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Layout, Breadcrumb } from "antd";
+import { Layout } from "antd";
 import { Routes, Route } from "react-router-dom";
 import routers from "../../routers";
+import { Suspense } from "react";
+import Nprogress from "../../components/Nprogress";
 const { Content } = Layout;
 export default class AppMain extends Component {
   state = {
@@ -9,7 +11,7 @@ export default class AppMain extends Component {
   };
   arr = [];
   getRouters = (routers) => {
-    routers.map((item) => {
+    routers.forEach((item) => {
       if (item.children?.length) {
         this.getRouters(item.children);
       } else {
@@ -37,18 +39,20 @@ export default class AppMain extends Component {
             height: "100%",
           }}
         >
-          <Routes>
-            {this.state.routeArr.map((item) => {
-              return (
-                <Route
-                  key={item.key}
-                  exact={item.exact}
-                  path={item.key}
-                  element={item.component}
-                ></Route>
-              );
-            })}
-          </Routes>
+          <Suspense fallback={<Nprogress />}>
+            <Routes>
+              {this.state.routeArr.map((item) => {
+                return (
+                  <Route
+                    key={item.key}
+                    exact={item.exact}
+                    path={item.key}
+                    element={item.component}
+                  ></Route>
+                );
+              })}
+            </Routes>
+          </Suspense>
         </div>
       </Content>
     );

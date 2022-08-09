@@ -3,8 +3,10 @@ import {
   PieChartOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import Home from "../pages/Home";
-
+import { lazy } from "react";
+const Home = lazy(() =>
+  import(/* webpackChunkName: "LoadingDetail" */ "../pages/Home")
+);
 const routes = [
   {
     key: "/home",
