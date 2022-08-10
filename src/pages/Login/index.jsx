@@ -74,7 +74,7 @@ function Index() {
         })
       );
 
-      navigate("/home/index");
+      navigate("/home");
       console.log(store.getState());
     } else if (username === "" || password === "") {
       message.warning("请完善用户名和密码信息!");

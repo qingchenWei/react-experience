@@ -7,6 +7,7 @@ import { lazy } from "react";
 const Home = lazy(() =>
   import(/* webpackChunkName: "LoadingDetail" */ "../pages/Home")
 );
+//路由本项目采取全局一级路由
 const routes = [
   {
     key: "/home",
@@ -19,47 +20,39 @@ const routes = [
   {
     key: "/one",
     exact: "true",
-    label: "一级菜单",
+    label: "菜单",
     auth: [1],
     icon: <TeamOutlined />,
     children: [
       {
-        key: "/one/two",
+        key: "/onetwo",
         exact: "true",
-        label: "二极菜单",
+        label: "菜单",
         auth: [1],
-        children: [
-          {
-            key: "/one/two/three",
-            exact: "true",
-            label: "三级菜单",
-            component: <div>三级菜单</div>,
-            auth: [1],
-          },
-        ],
+        component: <div>二级菜单</div>,
       },
     ],
   },
   {
     key: "/caidan",
     exact: "true",
-    label: "二级菜单",
-    component: <div>二级菜单</div>,
+    label: "菜单",
+    component: <div>菜单</div>,
     auth: [1],
     icon: <FileOutlined />,
     children: [
       {
-        key: "/caidan/one",
+        key: "/caidanone",
         exact: "true",
-        label: "二级菜单",
+        label: "菜单",
         auth: [1],
-        component: <div>二级菜单</div>,
+        component: <div>菜单</div>,
       },
       {
-        key: "/caidan/two",
+        key: "/caidantwo",
         exact: "true",
-        label: "二级菜单",
-        component: <div>二级菜单</div>,
+        label: "菜单",
+        component: <div>菜单</div>,
         auth: [1],
       },
     ],
