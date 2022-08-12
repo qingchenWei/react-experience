@@ -4,8 +4,12 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { lazy } from "react";
-const Home = lazy(() =>
-  import(/* webpackChunkName: "LoadingDetail" */ "../pages/Home")
+const Home = lazy(() => import(/* webpackChunkName: "Home" */ "../pages/Home"));
+const Hooks = lazy(() =>
+  import(/* webpackChunkName: "Hooks" */ "../pages/Hooks")
+);
+const Others = lazy(() =>
+  import(/* webpackChunkName: "Others" */ "../pages/Others")
 );
 //路由本项目采取全局一级路由
 const routes = [
@@ -18,18 +22,18 @@ const routes = [
     icon: <PieChartOutlined />,
   },
   {
-    key: "/one",
+    key: "/react",
     exact: "true",
-    label: "菜单",
+    label: "react",
     auth: [1],
     icon: <TeamOutlined />,
     children: [
       {
-        key: "/onetwo",
+        key: "/react-hooks",
         exact: "true",
-        label: "菜单",
+        label: "hooks",
         auth: [1],
-        component: <div>二级菜单</div>,
+        component: <Hooks />,
       },
     ],
   },
@@ -46,7 +50,7 @@ const routes = [
         exact: "true",
         label: "菜单",
         auth: [1],
-        component: <div>菜单</div>,
+        component: <Others></Others>,
       },
       {
         key: "/caidantwo",

@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.less";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-
+import "./mock/login";
 const react = createRoot(document.getElementById("root"));
 
 react.render(
