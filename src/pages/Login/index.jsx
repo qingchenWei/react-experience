@@ -4,7 +4,7 @@ import "./index.less";
 import { useNavigate } from "react-router-dom";
 // import { Navigate } from 'react-router-dom'
 import store from "../../store/store";
-import { creatSetUserInfo } from "../../store/actions";
+import { loginUser } from "../../store/actions";
 import { withRouter } from "../../utils/withRouter";
 import getUserInfo from "@/api/login";
 
@@ -34,8 +34,9 @@ function Index() {
       });
       //无实际意义
       store.dispatch(
-        creatSetUserInfo({
+        loginUser({
           userName: data.name,
+          isLogin: true,
         })
       );
       navigate("/home");

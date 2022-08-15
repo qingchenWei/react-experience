@@ -4,6 +4,7 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { lazy } from "react";
+import { useRoutes } from "react-router-dom";
 const Home = lazy(() => import(/* webpackChunkName: "Home" */ "../pages/Home"));
 const Hooks = lazy(() =>
   import(/* webpackChunkName: "Hooks" */ "../pages/Hooks")
@@ -11,56 +12,69 @@ const Hooks = lazy(() =>
 const Others = lazy(() =>
   import(/* webpackChunkName: "Others" */ "../pages/Others")
 );
-//路由本项目采取全局一级路由
 const routes = [
   {
     key: "/home",
-    exact: "true",
+    path: "/home",
     label: "首页",
-    component: <Home />,
-    auth: [1],
+    element: <Home />,
+    auth: 1,
     icon: <PieChartOutlined />,
   },
   {
     key: "/react",
-    exact: "true",
+    path: "/react",
     label: "react",
-    auth: [1],
+    auth: 1,
     icon: <TeamOutlined />,
     children: [
       {
-        key: "/react-hooks",
-        exact: "true",
+        key: "/react/react-hooks",
+        path: "/react/react-hooks",
         label: "hooks",
-        auth: [1],
-        component: <Hooks />,
+        auth: 1,
+        element: <Hooks />,
       },
     ],
   },
   {
-    key: "/caidan",
-    exact: "true",
-    label: "菜单",
-    component: <div>菜单</div>,
-    auth: [1],
+    key: "/system",
+    label: "系统管理",
+    auth: 1,
     icon: <FileOutlined />,
     children: [
       {
-        key: "/caidanone",
-        exact: "true",
-        label: "菜单",
-        auth: [1],
-        component: <Others></Others>,
+        key: "/system/menu",
+        path: "/system/menu",
+        label: "菜单管理",
+        auth: 1,
+        element: <Others></Others>,
       },
       {
-        key: "/caidantwo",
-        exact: "true",
-        label: "菜单",
-        component: <div>菜单</div>,
-        auth: [1],
+        key: "/system/user",
+        path: "/system/user",
+        label: "用户管理",
+        element: <div>用户管理</div>,
+        auth: 1,
       },
     ],
   },
 ];
 
-export default routes;
+//根据路径获取路由
+const checkAuth = (routers, path) => {
+  for (const data of routers) {
+    if (data.path == path) return data;
+    if (data.children) {
+      const res = checkAuth(data.children, path);
+      if (res) return res;
+    }
+  }
+  return null;
+};
+const checkRouterAuth = (path) => {
+  let auth = null;
+  auth = checkAuth(routes, path);
+  return auth;
+};
+export { routes, checkRouterAuth };

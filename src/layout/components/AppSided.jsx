@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import routers from "../../routers";
+import { routes } from "../../routers";
 import { useNavigate, useLocation } from "react-router-dom";
 const { Sider } = Layout;
 
@@ -9,7 +9,7 @@ export default function AppSided() {
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-  routers.forEach((item) => {
+  routes.forEach((item) => {
     rootSubmenuKeys.push(item.key);
   });
   //侧边栏添加默认打开项,初次进入侧边栏选中项为路由第一位
@@ -46,7 +46,7 @@ export default function AppSided() {
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         onClick={menuClick}
-        items={routers}
+        items={routes}
       ></Menu>
     </Sider>
   );

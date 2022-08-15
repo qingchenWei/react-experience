@@ -1,12 +1,15 @@
 const userInfo = {
-  userName: "weipenghui",
-  tel: "15829770927",
+  userName: "",
+  isLogin: false,
 };
 export default function userqReducer(preState = userInfo, action) {
   const { type, data } = action;
-  console.log(action);
   switch (type) {
-    case "SET_INFO":
+    case "LOGIN_USER":
+      sessionStorage.setItem("isLogin", data.isLogin);
+      return { ...preState, ...data };
+    case "LOGOUT_USER":
+      sessionStorage.removeItem("isLogin");
       return { ...preState, ...data };
     default:
       return userInfo;

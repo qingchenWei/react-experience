@@ -8,9 +8,13 @@ function App() {
   return (
     <Suspense fallback={<Nprogress />}>
       <Routes>
+        <Route
+          path="/"
+          element={<Navigate to="/login" replace={true} />}
+        ></Route>
+        <Route path="/404" element={<div>404~~~~</div>} />
         <Route path="/login" element={<Login />}></Route>
         <Route path="/*" element={<Layout />}></Route>
-        <Route path="*" element={<Navigate to="/login" replace={true} />} />
       </Routes>
     </Suspense>
   );

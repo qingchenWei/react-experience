@@ -1,60 +1,39 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { Layout } from "antd";
-import { Routes, Route } from "react-router-dom";
-import routers from "../../routers";
+import { Routes, useNavigate, useRoutes } from "react-router-dom";
+import { routes, checkRouterAuth } from "../../routers";
 import { Suspense } from "react";
 import Nprogress from "../../components/Nprogress";
 const { Content } = Layout;
-export default class AppMain extends Component {
-  state = {
-    routeArr: [],
-  };
-  arr = [];
-  getRouters = (routers) => {
-    routers.forEach((item) => {
-      if (item.children?.length) {
-        this.getRouters(item.children);
-      } else {
-        this.arr.push(item);
-      }
-    });
-  };
-  componentDidMount() {
-    this.getRouters(routers);
-    this.setState({
-      routeArr: this.arr,
-    });
-  }
-  render() {
-    return (
-      <Content
+export default function AppMain() {
+  const muRoutes = useRoutes(routes);
+  const navigate = useNavigate();
+  useEffect(() => {
+    //路由鉴权  不符合跳转404
+    let obj = checkRouterAuth(location.pathname);
+    const isLogin = sessionStorage.getItem("isLogin") || "";
+    if (obj && obj.auth && isLogin) {
+      //鉴权通过
+    } else {
+      //鉴权失败
+      navigate("/404", { replace: true });
+    }
+  }, []);
+  return (
+    <Content
+      style={{
+        margin: "0 16px",
+      }}
+    >
+      <div
+        className="site-layout-background"
         style={{
-          margin: "0 16px",
+          padding: 24,
+          height: "100%",
         }}
       >
-        <div
-          className="site-layout-background"
-          style={{
-            padding: 24,
-            height: "100%",
-          }}
-        >
-          <Suspense fallback={<Nprogress />}>
-            <Routes>
-              {this.state.routeArr.map((item) => {
-                return (
-                  <Route
-                    key={item.key}
-                    exact={item.exact}
-                    path={item.key}
-                    element={item.component}
-                  ></Route>
-                );
-              })}
-            </Routes>
-          </Suspense>
-        </div>
-      </Content>
-    );
-  }
+        <Suspense fallback={<Nprogress />}>{muRoutes}</Suspense>
+      </div>
+    </Content>
+  );
 }
