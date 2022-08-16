@@ -18,7 +18,6 @@ export default function AppSided() {
   ]);
 
   const menuClick = ({ keyPath }) => {
-    console.log(keyPath, "keyPath");
     navigate(keyPath[0]);
     //sessionStorage存keyPath,防止页面刷新侧边栏选中项不展开
     sessionStorage.setItem("keyPath", keyPath[keyPath.length - 1]);

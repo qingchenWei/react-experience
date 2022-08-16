@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Layout } from "antd";
-import { Routes, useNavigate, useRoutes } from "react-router-dom";
-import { routes, checkRouterAuth } from "../../routers";
+import { useNavigate, useRoutes } from "react-router-dom";
+import { routes, checkRouterPermission } from "../../routers";
 import { Suspense } from "react";
 import Nprogress from "../../components/Nprogress";
 const { Content } = Layout;
@@ -10,10 +10,12 @@ export default function AppMain() {
   const navigate = useNavigate();
   useEffect(() => {
     //路由鉴权  不符合跳转404
-    let obj = checkRouterAuth(location.pathname);
+    let isPermission = checkRouterPermission(routes, location.pathname);
+    //是否登陆
     const isLogin = sessionStorage.getItem("isLogin") || "";
-    if (obj && obj.auth && isLogin) {
+    if (isPermission && isLogin) {
       //鉴权通过
+      console.log(333);
     } else {
       //鉴权失败
       navigate("/404", { replace: true });

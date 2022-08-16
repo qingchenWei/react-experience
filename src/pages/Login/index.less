@@ -1,19 +1,38 @@
 .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: rgb(244, 244, 247);
+  background-image: url("../../assets/images/bg.jpeg");
+  background-size: cover;
+
+  .login-box {
+    position: absolute;
+    z-index: 3;
+    width: 350px;
+    height: 500px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    background-color: rgb(244, 244, 247);
-    background-image: url('../../assets/imgs/bg.jpeg');
-    background-size: cover;
-
-    .login-box {
-        width: 400px;
-        height: 300px;
-        border-radius: 10px;
-        background: rgba(216, 216, 216, .55);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .title-box {
+      position: absolute;
+      /* flex: auto; */
+      top: 114px;
     }
+    .ant-form {
+      width: 259px;
+    }
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      .my-btn {
+        width: 200px;
+        height: 35px;
+        border-radius: 10px;
+      }
+    }
+  }
 }

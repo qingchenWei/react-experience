@@ -19,7 +19,7 @@ export default class index extends Component {
               textAlign: "center",
             }}
           >
-            Ant Design ©2018 Created by Ant UED
+            react后台管理系统 ©2022 Created by qingchen
           </Footer>
         </Layout>
       </Layout>
