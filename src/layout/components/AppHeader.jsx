@@ -1,15 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 import { Layout, Avatar, Dropdown, Menu } from "antd";
-import store from "../../store/store";
 import { logoutUser } from "../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const { Header } = Layout;
 
 export default function AppHeader() {
-  const { userName } = store.getState();
+  const { userName } = useSelector((state) => state.loginReducer);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  //退出登录
   const onClick = () => {
-    store.dispatch(
+    dispatch(
       logoutUser({
         userName: "",
         isLogin: false,
@@ -17,7 +19,6 @@ export default function AppHeader() {
     );
     navigate("/");
   };
-
   const menu = (
     <Menu
       onClick={onClick}
@@ -51,9 +52,7 @@ export default function AppHeader() {
         W
       </Avatar>
       <Dropdown overlay={menu}>
-        <div className="user-name">
-          {userName || sessionStorage.getItem("userName")}
-        </div>
+        <div className="user-name">{userName}</div>
       </Dropdown>
     </Header>
   );

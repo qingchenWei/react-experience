@@ -3,7 +3,7 @@ import { Button, Form, Input, message } from "antd";
 import "./index.less";
 import { useNavigate } from "react-router-dom";
 // import { Navigate } from 'react-router-dom'
-import store from "../../store/store";
+import { store } from "../../store/store";
 import { loginUser } from "../../store/actions";
 import { withRouter } from "../../utils/withRouter";
 import getUserInfo from "@/api/login";
@@ -173,9 +173,9 @@ function Index() {
   };
 
   //粒子被正确加载到画布中时，这个函数被调用
-  const particlesLoaded = (container) => {
-    console.log("123", container);
-  };
+  // const particlesLoaded = (container) => {
+  //   // console.log("123", container);
+  // };
 
   useEffect(() => {
     console.log(person.isLogin, "isLogin");
@@ -212,7 +212,7 @@ function Index() {
       <Particles
         id="tsparticles"
         init={particlesInit}
-        loaded={particlesLoaded}
+        // loaded={particlesLoaded}
         options={options}
       />
 
