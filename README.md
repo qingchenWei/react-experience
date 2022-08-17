@@ -1,71 +1,62 @@
-# Getting Started with Create React App
+## 项目技术栈
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+node@16.15.1 + react@18.2.0 + redux@4.2.0 + react-router@6.3.0  + axios@0.27.2  + antd@4.22.3 + mockjs@1.1.0
 
-## Available Scripts
+## 项目运行
 
-In the project directory, you can run:
+```js
+git clone https://github.com/qingchenWei/react-experience.git  
 
-### `npm start`
+cd react-experience (进入项目)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+npm install (安装依赖包)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+npm run start (启动服务)
+```
 
-### `npm test`
+## 项目目录
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
++-- build/                                  ---打包的文件目录
++-- config/                                 ---npm run eject 后的配置文件目录
++-- node_modules/                           ---npm下载文件目录
++-- public/
+|   --- index.html							---首页入口html文件
+|   --- favico.ico							---网站icon
++-- src/                                    ---核心代码目录
+|   +-- api                               ---接口请求存放目录
+|   |    --- login.js
+|   +-- components                          ---各式各样的组件存放目录
+|   |    +-- Nprogress                      ---进度条组件
+|   |    |    --- ...
 
-### `npm run build`
+|   +-- layout                           ---项目的主体布局存放目录
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+|   +-- mock                           ---mockjs模拟后端接口存放目录
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+|   +-- pages                           ---项目页面存放目录
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+|   +-- style                               ---项目的样式存放目录，主要采用less编写
+|   +-- utils                               ---工具文件存放目录
+|   --- App.js                              ---组件入口文件
+|   --- index.js                            ---项目的整体js入口文件，包括路由配置等
+--- setupProxy.js                              ---proxy代理配置文件
+--- craco.config.js                               ---项目基础配置;别名配置、antd按需引入、配置代理等
+--- package.json
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 功能一览
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [√] 登录、退出,mockjs模拟登陆接口
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- [√] antd按需引入配置
 
-## Learn More
+- [√] redux和react-redux用法案例
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [√] mockjs模拟后端返回接口
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [√] axios封装,请求拦截、响应拦截使用
 
-### Code Splitting
+- [√] 常用hooks使用案例
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# react-experience
+  **本项目旨在学习react,react全家桶初体验**
