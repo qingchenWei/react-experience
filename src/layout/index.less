@@ -18,7 +18,7 @@
 .ant-layout-header {
   padding: 0 20px !important;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
 .my-menu {
@@ -30,9 +30,14 @@
   width: 120px;
   height: 60px;
 }
-.user-name {
-  color: #000;
-  font-size: 16px;
-  margin-left: 10px;
-  cursor: pointer;
+.heard-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .user-name {
+    color: #000;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
 }

@@ -11,8 +11,8 @@ const Hooks = lazy(() =>
 const Others = lazy(() =>
   import(/* webpackChunkName: "Others" */ "../pages/Others")
 );
-const NotFound = lazy(() =>
-  import(/* webpackChunkName: "NotFound" */ "../pages/404")
+const Rudex = lazy(() =>
+  import(/* webpackChunkName: "Rudex" */ "../pages/Redux")
 );
 const routes = [
   {
@@ -22,6 +22,7 @@ const routes = [
     element: <Home />, //useRouters渲染路由使用
     hidden: 0, ////menu渲染菜单使用,是否需要隐藏该项菜单
     icon: <PieChartOutlined />, //menu渲染菜单使用(icon图标)
+    children: null,
   },
   {
     key: "/react",
@@ -36,6 +37,15 @@ const routes = [
         label: "hooks",
         hidden: 0,
         element: <Hooks />,
+        children: null,
+      },
+      {
+        key: "/react/redux",
+        path: "/react/redux",
+        label: "redux",
+        hidden: 0,
+        element: <Rudex />,
+        children: null,
       },
     ],
   },
@@ -51,13 +61,15 @@ const routes = [
         label: "菜单管理",
         hidden: 0,
         element: <Others></Others>,
+        children: null,
       },
       {
         key: "/system/user",
         path: "/system/user",
         label: "用户管理",
-        element: <div>用户管理</div>,
+        element: <Others></Others>,
         hidden: 0,
+        children: null,
       },
     ],
   },
@@ -74,17 +86,5 @@ const checkRouterPermission = (routers, path) => {
   }
   return false;
 };
-//获取可展示的菜单
-// const checkShowMenu = (routes) => {
-//   return routes.filter((item) => {
-//     if (item.hidden) {
-//       return false;
-//     }
-//     if (item?.children?.length > 0) {
-//       item.children = checkShowMenu(item.children);
-//     }
-//     return true;
-//   });
-// };
 
 export { routes, checkRouterPermission };

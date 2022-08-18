@@ -10,6 +10,6 @@ export default function userqReducer(preState = userInfo, action) {
     case "LOGOUT_USER":
       return { ...preState, ...data };
     default:
-      return userInfo;
+      return preState;
   }
 }
