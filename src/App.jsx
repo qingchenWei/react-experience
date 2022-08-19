@@ -7,7 +7,7 @@ import Layout from "./layout";
 import "./styles/base.less";
 function App() {
   return (
-    <Suspense fallback={<Nprogress />}>
+    <Suspense fallback="loading...">
       <Routes>
         <Route
           path="/"
