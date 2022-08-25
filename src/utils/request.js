@@ -32,8 +32,10 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (response) => {
     const res = response.data;
-    if (res.status == 200) {
-      return Promise.resolve(res);
+    if (response.status == 200) {
+      return res.status == -1
+        ? Promise.reject(message.error(res.messsage))
+        : Promise.resolve(res);
     } else {
       return Promise.reject(message.error(res.messsage));
     }

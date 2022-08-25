@@ -8,8 +8,8 @@ const Home = lazy(() => import(/* webpackChunkName: "Home" */ "../pages/Home"));
 const Hooks = lazy(() =>
   import(/* webpackChunkName: "Hooks" */ "../pages/Hooks")
 );
-const Others = lazy(() =>
-  import(/* webpackChunkName: "Others" */ "../pages/Others")
+const UserManage = lazy(() =>
+  import(/* webpackChunkName: "UserManage" */ "../pages/UserManage")
 );
 const Rudex = lazy(() =>
   import(/* webpackChunkName: "Rudex" */ "../pages/Redux")
@@ -60,14 +60,14 @@ const routes = [
         path: "/system/menu",
         label: "菜单管理",
         hidden: 0,
-        element: <Others></Others>,
+        element: <div></div>,
         children: null,
       },
       {
         key: "/system/user",
         path: "/system/user",
         label: "用户管理",
-        element: <Others></Others>,
+        element: <UserManage></UserManage>,
         hidden: 0,
         children: null,
       },
