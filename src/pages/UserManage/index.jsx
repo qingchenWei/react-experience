@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
   Form,
   Input,
   Button,
-  Radio,
   Select,
   DatePicker,
   Col,
@@ -11,14 +11,19 @@ import {
   Table,
   Space,
   Tag,
+  Modal,
 } from "antd";
 import "./index.less";
+import UpdateModal from "./compontents/updateModal";
 import { getUserList } from "@/api/systemApi";
 import moment from "moment";
 const { RangePicker } = DatePicker;
+const { confirm } = Modal;
 const FormDisabledDemo = () => {
   const [form] = Form.useForm();
   const [tabelData, setTabelData] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [updataRow, setupdataRow] = useState(null);
   async function fetchData(params) {
     const { data } = await getUserList(params);
     setTabelData(data);
@@ -28,16 +33,28 @@ const FormDisabledDemo = () => {
       name: "",
       age: "",
       address: "",
-      sex: "",
       time: [],
     });
-    console.log(2222);
     const fromData = form.getFieldsValue(); // {name: 'dee', age: 18} 获取整个表单的值
     fetchData(fromData);
   }, []);
-  useEffect(() => {
-    console.log(1111);
-  }, [form]);
+  const onDetel = () => {
+    confirm({
+      title: "你确定要删除该用户信息吗?",
+      icon: <ExclamationCircleOutlined />,
+      okText: "是",
+      okType: "danger",
+      cancelText: "否",
+
+      onOk() {
+        console.log("OK");
+      },
+
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
   const columns = [
     {
       title: "姓名",
@@ -49,11 +66,13 @@ const FormDisabledDemo = () => {
     },
 
     {
+      width: "100px",
       title: "年龄",
       dataIndex: "age",
       key: "age",
     },
     {
+      width: "130px",
       title: "地址",
       dataIndex: "address",
       key: "address",
@@ -83,10 +102,20 @@ const FormDisabledDemo = () => {
     {
       title: "操作",
       key: "action",
+      fixed: "right",
+      width: "170px",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary">修改</Button>
-          <Button type="primary" danger ghost>
+          <Button
+            type="primary"
+            onClick={() => {
+              setVisible(true);
+              setupdataRow(record);
+            }}
+          >
+            修改
+          </Button>
+          <Button type="primary" danger ghost onClick={() => onDetel()}>
             删除
           </Button>
         </Space>
@@ -94,7 +123,7 @@ const FormDisabledDemo = () => {
     },
   ];
   const onFinish = (values) => {
-    if (values.time) {
+    if (values.time.length >= 1) {
       values = {
         ...values,
         time: [
@@ -103,7 +132,6 @@ const FormDisabledDemo = () => {
         ],
       };
     }
-    console.log(values);
     fetchData(values);
     //表单校验
     // form
@@ -156,14 +184,6 @@ const FormDisabledDemo = () => {
               />
             </Form.Item>
           </Col>
-          <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
-            <Form.Item label="性别" name="sex">
-              <Radio.Group>
-                <Radio value="man"> 男 </Radio>
-                <Radio value="woman"> 女 </Radio>
-              </Radio.Group>
-            </Form.Item>
-          </Col>
         </Row>
         <Row justify="center">
           <Col
@@ -177,6 +197,13 @@ const FormDisabledDemo = () => {
               type="ghost"
               onClick={() => {
                 form.resetFields();
+                form.setFieldsValue({
+                  name: "",
+                  age: "",
+                  address: "",
+                  sex: "",
+                  time: [],
+                });
               }}
             >
               重置
@@ -193,15 +220,16 @@ const FormDisabledDemo = () => {
           y: 300,
         }}
       />
+      <UpdateModal
+        updataRow={updataRow}
+        visible={visible}
+        setVisible={setVisible}
+      />
     </>
   );
 };
 function App() {
-  return (
-    <div>
-      <FormDisabledDemo></FormDisabledDemo>
-    </div>
-  );
+  return <FormDisabledDemo></FormDisabledDemo>;
 }
 
 export default App;

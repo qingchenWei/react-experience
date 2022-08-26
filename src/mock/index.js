@@ -20,7 +20,11 @@ const login = Mock.mock("/api/login", "post", (req) => {
   }
   return data_error;
 });
-
+let data_error = {
+  status: "200", //表示账号密码正确，登录成功
+  data: [],
+  messsage: "暂无数据!",
+};
 const getUserList = Mock.mock("/api/getUserList", "post", (req) => {
   let req_data = JSON.parse(req.body);
   const tabeldata = [
@@ -109,20 +113,22 @@ const getUserList = Mock.mock("/api/getUserList", "post", (req) => {
       tags: ["cool", "teacher"],
     },
   ];
+  let response = [];
+  if (req_data.name || req_data.age) {
+    tabeldata.forEach((item) => {
+      if (item.name == req_data.name || item.age == req_data.age) {
+        response.push(item);
+      }
+    });
+  } else {
+    response = tabeldata;
+  }
   let data_success = {
     status: "200", //表示账号密码正确，登录成功
-    data: tabeldata,
+    data: response,
     messsage: "查询成功!",
   };
-
-  let data_error = {
-    status: "-1", //表示账号密码错误，登录失败
-    messsage: "查询失败!",
-  };
-  // if (req_data.username == "admin" && req_data.password == "admin") {
   return data_success;
-  // }
-  return data_error;
 });
 
 export { login, getUserList };
