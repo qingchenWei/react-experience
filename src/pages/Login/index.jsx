@@ -172,11 +172,6 @@ function Index() {
     await loadFull(main);
   };
 
-  //粒子被正确加载到画布中时，这个函数被调用
-  // const particlesLoaded = (container) => {
-  //   // console.log("123", container);
-  // };
-
   useEffect(() => {
     console.log(person.isLogin, "isLogin");
   }, [person.isLogin]);
@@ -203,12 +198,17 @@ function Index() {
       console.log(error);
     }
   };
-
+  const checkName = (_, value, type) => {
+    if (value && (value.length < 4 || value.length > 10)) {
+      return Promise.reject(
+        `${type == "username" ? "用户名" : "密码"}必须是4~10位`
+      );
+    } else {
+      return Promise.resolve();
+    }
+  };
   return (
     <div className="login-container">
-      {/* {person.isLogin && (
-        <Navigate to='/home'/>
-      )} */}
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -218,21 +218,18 @@ function Index() {
 
       <div className="login-box">
         <h3 className="title-box">登陆</h3>
-        <Form
-          // style={{ width: "340px" }}
-          // labelCol={{
-          //   span: 7,
-          // }}
-          onFinish={onFinish}
-          initialValues={{ ...person }}
-        >
+        <Form onFinish={onFinish} initialValues={{ ...person }}>
           <Form.Item
             label={<UserOutlined />}
             name="username"
+            validateTrigger="onBlur" //检验触发时机
             rules={[
               {
                 required: false,
                 message: "请输入你的用户名!",
+              },
+              {
+                validator: (_, value) => checkName(_, value, "username"),
               },
             ]}
           >
@@ -246,6 +243,9 @@ function Index() {
               {
                 required: false,
                 message: "请输入你的密码!",
+              },
+              {
+                validator: (_, value) => checkName(_, value, "password"),
               },
             ]}
           >
