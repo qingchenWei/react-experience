@@ -13,6 +13,7 @@ import {
   Tag,
   Modal,
 } from "antd";
+import { useNavigate } from "react-router-dom";
 import "./index.less";
 import UpdateModal from "./compontents/updateModal";
 import { getUserList } from "@/api/systemApi";
@@ -21,6 +22,7 @@ const { RangePicker } = DatePicker;
 const { confirm } = Modal;
 const FormDisabledDemo = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const [tabelData, setTabelData] = useState(null);
   const [visible, setVisible] = useState(false);
   const [updataRow, setupdataRow] = useState(null);
@@ -55,13 +57,21 @@ const FormDisabledDemo = () => {
       },
     });
   };
+  const toDetail = (Item) => {
+    //拼接方式用useLocation的search接收,state用state接收
+    navigate(`/system/userDetail?name=${Item.name}`, {
+      state: { age: Item.age, address: Item.address, tags: Item.tags },
+    });
+    // param传递用useParams接受
+    // navigate(`/home/message/detail/${id}/${title}`, { replace: true });
+  };
   const columns = [
     {
       title: "姓名",
       dataIndex: "name",
       width: "100px",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text, Item) => <a onClick={() => toDetail(Item)}>{text}</a>,
       fixed: "left",
     },
 
@@ -78,6 +88,7 @@ const FormDisabledDemo = () => {
       key: "address",
     },
     {
+      width: "230px",
       title: "标签",
       key: "tags",
       dataIndex: "tags",
@@ -220,16 +231,17 @@ const FormDisabledDemo = () => {
           y: 300,
         }}
       />
-      <UpdateModal
-        updataRow={updataRow}
-        visible={visible}
-        setVisible={setVisible}
-      />
+      {updataRow ? (
+        <UpdateModal
+          updataRow={updataRow}
+          visible={visible}
+          setVisible={setVisible}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };
-function App() {
-  return <FormDisabledDemo></FormDisabledDemo>;
-}
 
-export default App;
+export default FormDisabledDemo;

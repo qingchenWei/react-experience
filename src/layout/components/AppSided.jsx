@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import { routes } from "../../routers";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -59,6 +59,7 @@ export default function AppSided() {
         theme="dark"
         defaultSelectedKeys={[location.pathname]}
         mode="inline"
+        selectedKeys={[location.pathname]}
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         onClick={menuClick}

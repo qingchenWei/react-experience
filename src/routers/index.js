@@ -14,13 +14,21 @@ const UserManage = lazy(() =>
 const Rudex = lazy(() =>
   import(/* webpackChunkName: "Rudex" */ "../pages/Redux")
 );
+const UserDetail = lazy(() =>
+  import(
+    /* webpackChunkName: "UserDetail" */ "../pages/UserManage/compontents/userDetail"
+  )
+);
+const MenuManage = lazy(() =>
+  import(/* webpackChunkName: "MenuManage" */ "../pages/MenuManage")
+);
 const routes = [
   {
     key: "/home", //menu渲染菜单使用
     path: "/home", //useRouters渲染路由使用
     label: "首页", //menu渲染菜单使用(菜单名)
     element: <Home />, //useRouters渲染路由使用
-    hidden: 0, ////menu渲染菜单使用,是否需要隐藏该项菜单
+    hidden: 0, //menu渲染菜单使用,是否需要隐藏该项菜单
     icon: <PieChartOutlined />, //menu渲染菜单使用(icon图标)
     children: null,
   },
@@ -60,15 +68,23 @@ const routes = [
         path: "/system/menu",
         label: "菜单管理",
         hidden: 0,
-        element: <div></div>,
+        element: <MenuManage />,
         children: null,
       },
       {
         key: "/system/user",
         path: "/system/user",
         label: "用户管理",
-        element: <UserManage></UserManage>,
+        element: <UserManage />,
         hidden: 0,
+        children: null,
+      },
+      {
+        key: "/system/userDetail",
+        path: "/system/userDetail",
+        label: "用户详情",
+        element: <UserDetail />,
+        hidden: 1,
         children: null,
       },
     ],

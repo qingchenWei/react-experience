@@ -6,6 +6,12 @@ import {
 } from "@jiaminghi/data-view-react";
 import "./index.less";
 class Index extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
+  componentDidMount() {}
+
   config = {
     header: ["姓名", "年龄", "性别"],
     data: [
