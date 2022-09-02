@@ -10,7 +10,6 @@ class Index extends Component {
     super(props);
     console.log(this.props);
   }
-  componentDidMount() {}
 
   config = {
     header: ["姓名", "年龄", "性别"],
@@ -82,6 +81,7 @@ class Index extends Component {
   render() {
     return (
       <div className="content">
+        <h1>{this.context.age}</h1>
         <ScrollBoard
           config={this.config}
           style={{ width: "80%", height: "220px" }}

@@ -22,6 +22,9 @@ const UserDetail = lazy(() =>
 const MenuManage = lazy(() =>
   import(/* webpackChunkName: "MenuManage" */ "../pages/MenuManage")
 );
+const ComponentProps = lazy(() =>
+  import(/* webpackChunkName: "ComponentProps" */ "../pages/componentProps")
+);
 const routes = [
   {
     key: "/home", //menu渲染菜单使用
@@ -53,6 +56,14 @@ const routes = [
         label: "redux",
         hidden: 0,
         element: <Rudex />,
+        children: null,
+      },
+      {
+        key: "/react/componentProps",
+        path: "/react/componentProps",
+        label: "ComponentProps",
+        hidden: 0,
+        element: <ComponentProps />,
         children: null,
       },
     ],
