@@ -43,6 +43,7 @@ request.interceptors.response.use(
   (error) => {
     // 相应错误处理
     // 比如： token 过期， 无权限访问， 路径不存在， 服务器问题等
+    console.log("error", error);
     switch (error.response.status) {
       case 401:
         break;

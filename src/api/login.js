@@ -2,7 +2,7 @@ import request from "../utils/request";
 
 const getUserInfo = (data) => {
   return request({
-    url: "/api/login",
+    url: "/user/login",
     method: "post",
     data,
   });
