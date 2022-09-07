@@ -1,9 +1,10 @@
 import React from "react";
-import { Layout, Avatar, Dropdown, Menu, Breadcrumb } from "antd";
+import { Layout, Avatar, Dropdown, Menu, Breadcrumb, message } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import { logoutUser } from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { logout } from "@/api/login";
 const { Header } = Layout;
 
 const HeaderBreadcrumb = () => {
@@ -37,7 +38,9 @@ function AppHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //退出登录
-  const onClick = () => {
+  const onClick = async () => {
+    const data = await logout();
+    message.success(data.messsage);
     dispatch(
       logoutUser({
         userName: "",

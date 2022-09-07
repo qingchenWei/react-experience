@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { store } from "../../store/store";
 import { loginUser } from "../../store/actions";
 import { withRouter } from "../../utils/withRouter";
-import getUserInfo from "@/api/login";
+import { login } from "@/api/login";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 //引入
 import Particles from "react-tsparticles";
@@ -178,7 +178,7 @@ function Index() {
 
   const onFinish = async (values) => {
     try {
-      const data = await getUserInfo(values);
+      const data = await login(values);
       message.success(data.messsage);
       //无实际意义
       setPerson({
@@ -189,7 +189,7 @@ function Index() {
       //无实际意义
       store.dispatch(
         loginUser({
-          userName: data.name,
+          userName: data.roleName,
           isLogin: true,
         })
       );

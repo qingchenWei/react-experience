@@ -6,7 +6,7 @@ router.use("/login", function (req, res) {
   console.log(req.body);
   var data_success = Mock.mock({
     status: "200", //表示账号密码正确，登录成功
-    data: [],
+    roleName: "超级管理员",
     messsage: "登陆成功!",
   });
   var data_fail = Mock.mock({
