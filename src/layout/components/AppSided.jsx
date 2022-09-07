@@ -57,9 +57,9 @@ export default function AppSided() {
       <div className="logo"></div>
       <Menu
         theme="dark"
-        defaultSelectedKeys={[location.pathname]}
+        defaultSelectedKeys={[location.hash.split("#")[1]]}
         mode="inline"
-        selectedKeys={[location.pathname]}
+        selectedKeys={[location.hash.split("#")[1]]}
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         onClick={menuClick}

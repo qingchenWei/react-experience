@@ -12,9 +12,14 @@ export default function AppMain() {
   const { isLogin } = useSelector((state) => state.loginReducer);
 
   useEffect(() => {
-    const isPermission = checkRouterPermission(routes, location.pathname);
+    const isPermission = checkRouterPermission(
+      routes,
+      location.hash.split("#")[1]
+    );
     //路由鉴权并判断用户是否登陆   不符合跳转404
     const loginPermission = isLogin && isPermission;
+    console.log("isLogin===", isLogin);
+    console.log("isPermission===", isPermission);
     loginPermission ? "" : navigate("/404", { replace: true });
   }, []);
 

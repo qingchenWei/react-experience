@@ -2,6 +2,7 @@
   "name": "react-demo",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@craco/craco": "^6.4.5",
     "@jiaminghi/data-view-react": "^1.2.5",
