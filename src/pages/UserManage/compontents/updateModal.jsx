@@ -14,14 +14,14 @@ class UpdateModal extends PureComponent {
       .validateFields()
       .then((value) => {
         // 验证通过后进入
-        const { name, age } = value;
-        console.log(name, age); // dee 18
-        message.success("检验通过");
+        // const { name, age } = value;
+        // console.log(name, age); // dee 18
+        // message.success("检验通过");
       })
       .catch((err) => {
         // 验证不通过时进入
         console.log(err);
-        message.error("检验失败");
+        message.error("请检查信息是否完整!");
       });
   }
   render() {

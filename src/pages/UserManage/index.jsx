@@ -10,13 +10,14 @@ import {
   Row,
   Table,
   Space,
-  Tag,
+  Switch,
   Modal,
+  message,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./index.less";
 import UpdateModal from "./compontents/updateModal";
-import { getUserList } from "@/api/systemApi";
+import { getUserList, deleteUser } from "@/api/systemApi";
 import moment from "moment";
 const { RangePicker } = DatePicker;
 const { confirm } = Modal;
@@ -32,15 +33,17 @@ const FormDisabledDemo = () => {
   }
   useEffect(() => {
     form.setFieldsValue({
+      account: "",
       name: "",
-      age: "",
-      address: "",
-      time: [],
+      tel: "",
+      status: false,
+      loginTime: [],
+      creatTime: [],
     });
     const fromData = form.getFieldsValue(); // {name: 'dee', age: 18} 获取整个表单的值
     fetchData(fromData);
   }, []);
-  const onDetel = () => {
+  const onDetel = (id) => {
     confirm({
       title: "你确定要删除该用户信息吗?",
       icon: <ExclamationCircleOutlined />,
@@ -48,8 +51,10 @@ const FormDisabledDemo = () => {
       okType: "danger",
       cancelText: "否",
 
-      onOk() {
-        console.log("OK");
+      async onOk() {
+        const data = await deleteUser({ id });
+        message.success(data.message);
+        setTabelData(data.data);
       },
 
       onCancel() {
@@ -65,84 +70,22 @@ const FormDisabledDemo = () => {
     // param传递用useParams接受
     // navigate(`/home/message/detail/${id}/${title}`, { replace: true });
   };
-  const columns = [
-    {
-      title: "姓名",
-      dataIndex: "name",
-      width: "100px",
-      key: "name",
-      render: (text, Item) => <a onClick={() => toDetail(Item)}>{text}</a>,
-      fixed: "left",
-    },
 
-    {
-      width: "100px",
-      title: "年龄",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      width: "130px",
-      title: "地址",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      width: "230px",
-      title: "标签",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-
-            if (tag === "loser") {
-              color = "volcano";
-            }
-
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: "操作",
-      key: "action",
-      fixed: "right",
-      width: "170px",
-      render: (_, record) => (
-        <Space size="middle">
-          <Button
-            type="primary"
-            onClick={() => {
-              setVisible(true);
-              setupdataRow(record);
-            }}
-          >
-            修改
-          </Button>
-          <Button type="primary" danger ghost onClick={() => onDetel()}>
-            删除
-          </Button>
-        </Space>
-      ),
-    },
-  ];
   const onFinish = (values) => {
-    if (values.time.length >= 1) {
-      values = {
-        ...values,
-        time: [
-          moment(values.time[0]).format("YYYY-MM-DD"),
-          moment(values.time[1]).format("YYYY-MM-DD"),
-        ],
-      };
-    }
+    const time = ["loginTime", "creatTime"];
+    time.forEach((item) => {
+      if (values[item].length >= 1) {
+        values = {
+          ...values,
+          time: [
+            moment(values.time[0]).format("YYYY-MM-DD"),
+            moment(values.time[1]).format("YYYY-MM-DD"),
+          ],
+        };
+      }
+    });
+    console.log("values===", values);
+
     fetchData(values);
     //表单校验
     // form
@@ -157,6 +100,73 @@ const FormDisabledDemo = () => {
     //     console.log(err);
     //   });
   };
+  const columns = [
+    {
+      title: "序号",
+      dataIndex: "index",
+      width: "70px",
+      render: (text, Item) => (
+        <a key={Item.id} onClick={() => toDetail(Item)}>
+          {text}
+        </a>
+      ),
+      fixed: "left",
+    },
+
+    {
+      width: "100px",
+      title: "账号",
+      dataIndex: "account",
+    },
+    {
+      width: "130px",
+      title: "姓名",
+      dataIndex: "name",
+    },
+    {
+      width: "100px",
+      title: "状态",
+      dataIndex: "stauts",
+      render: (_, record) => <Switch key={record.id} checked={record.status} />,
+    },
+    {
+      width: "210px",
+      title: "登陆时间",
+      dataIndex: "loginTime",
+    },
+    {
+      width: "210px",
+      title: "创建时间",
+      dataIndex: "creatTime",
+    },
+    {
+      title: "操作",
+      key: "action",
+      fixed: "right",
+      width: "170px",
+      render: (_, record) => (
+        <Space size="middle" key={record.id}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setVisible(true);
+              setupdataRow(record);
+            }}
+          >
+            修改
+          </Button>
+          <Button
+            type="primary"
+            danger
+            ghost
+            onClick={() => onDetel(record.id)}
+          >
+            删除
+          </Button>
+        </Space>
+      ),
+    },
+  ];
   return (
     <>
       <h4>搜索条件</h4>
@@ -168,31 +178,43 @@ const FormDisabledDemo = () => {
       >
         <Row gutter={24}>
           <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
+            <Form.Item label="账号" name="account">
+              <Input />
+            </Form.Item>
+          </Col>
+
+          <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
             <Form.Item label="姓名" name="name">
               <Input />
             </Form.Item>
           </Col>
-
           <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
-            <Form.Item label="年龄" name="age">
+            <Form.Item label="手机号码" name="tel">
               <Input />
             </Form.Item>
           </Col>
 
           <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
-            <Form.Item label="地址" name="address">
-              <Select>
-                <Select.Option value="demo">Demo</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
-            <Form.Item label="登录时间" name="time">
+            <Form.Item label="登录时间" name="loginTime">
               <RangePicker
                 style={{
                   width: "100%",
                 }}
               />
+            </Form.Item>
+          </Col>
+          <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
+            <Form.Item label="创建时间" name="creatTime">
+              <RangePicker
+                style={{
+                  width: "100%",
+                }}
+              />
+            </Form.Item>
+          </Col>
+          <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
+            <Form.Item label="账号状态" valuePropName="checked" name="status">
+              <Switch />
             </Form.Item>
           </Col>
         </Row>
@@ -230,6 +252,7 @@ const FormDisabledDemo = () => {
           x: 900,
           y: 300,
         }}
+        rowKey={(rowKey) => rowKey.id}
       />
       {updataRow ? (
         <UpdateModal

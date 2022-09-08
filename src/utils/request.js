@@ -34,10 +34,10 @@ request.interceptors.response.use(
     const res = response.data;
     if (response.status == 200) {
       return res.status == -1
-        ? Promise.reject(message.error(res.messsage))
+        ? Promise.reject(message.error(res.message))
         : Promise.resolve(res);
     } else {
-      return Promise.reject(message.error(res.messsage));
+      return Promise.reject(message.error(res.message));
     }
   },
   (error) => {

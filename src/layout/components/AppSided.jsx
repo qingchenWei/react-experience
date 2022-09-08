@@ -20,7 +20,6 @@ export default function AppSided() {
   const [openKeys, setOpenKeys] = useState([
     sessionStorage.getItem("keyPath") || rootSubmenuKeys[0],
   ]);
-
   const menuClick = ({ keyPath }) => {
     navigate(keyPath[0]);
     const iconRouter = findRoute(routesArr, keyPath[0]);
@@ -57,9 +56,9 @@ export default function AppSided() {
       <div className="logo"></div>
       <Menu
         theme="dark"
-        defaultSelectedKeys={[location.hash.split("#")[1]]}
+        defaultSelectedKeys={[location.pathname]}
         mode="inline"
-        selectedKeys={[location.hash.split("#")[1]]}
+        selectedKeys={[location.pathname]}
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         onClick={menuClick}

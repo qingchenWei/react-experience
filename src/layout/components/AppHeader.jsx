@@ -40,7 +40,7 @@ function AppHeader() {
   //退出登录
   const onClick = async () => {
     const data = await logout();
-    message.success(data.messsage);
+    message.success(data.message);
     dispatch(
       logoutUser({
         userName: "",

@@ -179,7 +179,7 @@ function Index() {
   const onFinish = async (values) => {
     try {
       const data = await login(values);
-      message.success(data.messsage);
+      message.success(data.message);
       //无实际意义
       setPerson({
         username: values.username,
