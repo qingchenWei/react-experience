@@ -7,8 +7,8 @@ set -e
 git pull origin main
 
 cd ./src/mock
-forever stop index.js
-forever start index.js 
+forever stop server.js
+forever start server.js 
 
 
 cd -
