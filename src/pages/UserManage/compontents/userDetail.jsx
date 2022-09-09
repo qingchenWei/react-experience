@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import qs from "qs";
 import { useLocation, useParams } from "react-router-dom";
-import { Tag } from "antd";
 class UserDetail extends PureComponent {
   constructor(props) {
     super(props);
@@ -12,22 +11,21 @@ class UserDetail extends PureComponent {
 
   render() {
     const {
-      state: { age, address, tags },
+      state: {
+        user: { name, account, tel, creatTime, loginTime },
+      },
       search,
     } = this.props.location;
-    const { name } = qs.parse(search.substr(1));
+    const { id } = qs.parse(search.substr(1));
     return (
       <div>
-        <h3>用户详情</h3>
-        <br />
-        <h5>
-          我叫{name},{age}岁,家住{address},属性
-          {tags.map((tag) => (
-            <Tag color="volcano" key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          ))}
-        </h5>
+        <h3>用户详情</h3> <br />
+        <h5>序号:{id}</h5> <br />
+        <h5>账号:{name}</h5> <br />
+        <h5>account: {account}</h5> <br />
+        <h5>手机号码: {tel}</h5> <br />
+        <h5>账号创建时间: {creatTime}</h5> <br />
+        <h5>最后一次登录时间: {loginTime}</h5>
       </div>
     );
   }

@@ -65,11 +65,39 @@ let userList = Mock.mock([
   },
 ]);
 router.use("/getUserList", function (req, res) {
-  let user = [];
+  let user = userList;
   if (req.body.account) {
-    user = userList.filter((item) => item.account == req.body.account);
-  } else {
-    user = userList;
+    user = user.filter((item) => item.account == req.body.account);
+  }
+  if (req.body.name) {
+    user = user.filter((item) => item.name == req.body.name);
+  }
+  if (req.body.status || req.body.status === false) {
+    console.log(req.body.status, "status");
+    user = user.filter((item) => item.status == req.body.status);
+    console.log(user);
+  }
+  if (req.body.loginTime?.length > 0) {
+    console.log(new Date(req.body.loginTime[0]).getTime());
+    user = user.filter(
+      (item) =>
+        new Date(item.loginTime).getTime() >=
+          new Date(req.body.loginTime[0]).getTime() &&
+        new Date(item.loginTime).getTime() <=
+          new Date(req.body.loginTime[1]).getTime()
+    );
+  }
+  if (req.body.creatTime?.length > 0) {
+    user = user.filter(
+      (item) =>
+        new Date(item.creatTime).getTime() >=
+          new Date(req.body.creatTime[0]).getTime() &&
+        new Date(item.creatTime).getTime() <=
+          new Date(req.body.creatTime[1]).getTime()
+    );
+  }
+  if (req.body.tel) {
+    user = user.filter((item) => item.tel == req.body.tel);
   }
 
   var data = {
@@ -91,11 +119,18 @@ router.use("/deleteUser", function (req, res) {
 });
 router.use("/updateUser", function (req, res) {
   console.log(req.body);
-  userList = userList.filter((item) => item.key != req.body.id);
+  userList.map((item) => {
+    if (item.id == req.body.id) {
+      item.status = req.body.user.status;
+      item.name = req.body.user.name;
+      item.tel = req.body.user.tel;
+      item.account = req.body.user.account;
+    }
+  });
   var data = {
     status: "200",
     data: userList,
-    message: "删除成功",
+    message: "操作成功!",
   };
   return res.json(data);
 });

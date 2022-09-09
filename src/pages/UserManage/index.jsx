@@ -4,7 +4,7 @@ import {
   Form,
   Input,
   Button,
-  Select,
+  Radio,
   DatePicker,
   Col,
   Row,
@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./index.less";
 import UpdateModal from "./compontents/updateModal";
-import { getUserList, deleteUser } from "@/api/systemApi";
+import { getUserList, deleteUser, updateUser } from "@/api/systemApi";
 import moment from "moment";
 const { RangePicker } = DatePicker;
 const { confirm } = Modal;
@@ -36,13 +36,18 @@ const FormDisabledDemo = () => {
       account: "",
       name: "",
       tel: "",
-      status: false,
-      loginTime: [],
-      creatTime: [],
+      status: "",
+      loginTime: null,
+      creatTime: null,
     });
     const fromData = form.getFieldsValue(); // {name: 'dee', age: 18} 获取整个表单的值
     fetchData(fromData);
   }, []);
+  // useEffect(() => {
+  //   console.log("updataRow===", updataRow);
+  //   setVisible(true);
+  // }, [updataRow]);
+  //删除用户信息
   const onDetel = (id) => {
     confirm({
       title: "你确定要删除该用户信息吗?",
@@ -62,24 +67,35 @@ const FormDisabledDemo = () => {
       },
     });
   };
-  const toDetail = (Item) => {
+  //查看详情
+  const toDetail = (user) => {
     //拼接方式用useLocation的search接收,state用state接收
-    navigate(`/system/userDetail?name=${Item.name}`, {
-      state: { age: Item.age, address: Item.address, tags: Item.tags },
+    navigate(`/system/userDetail?id=${user.id}`, {
+      state: { user },
     });
     // param传递用useParams接受
     // navigate(`/home/message/detail/${id}/${title}`, { replace: true });
   };
-
+  //更改用户状态
+  const onChangeStauts = async (checked, item) => {
+    console.log("@222");
+    const { message: msg, data } = await updateUser({
+      id: item.id,
+      user: { ...item, status: checked },
+    });
+    setTabelData(data);
+    message.success(msg);
+  };
+  //查询用户列表
   const onFinish = (values) => {
     const time = ["loginTime", "creatTime"];
     time.forEach((item) => {
-      if (values[item].length >= 1) {
+      if (values[item]?.length >= 1) {
         values = {
           ...values,
-          time: [
-            moment(values.time[0]).format("YYYY-MM-DD"),
-            moment(values.time[1]).format("YYYY-MM-DD"),
+          [item]: [
+            moment(values[item][0]).format("YYYY-MM-DD"),
+            moment(values[item][1]).format("YYYY-MM-DD"),
           ],
         };
       }
@@ -127,7 +143,13 @@ const FormDisabledDemo = () => {
       width: "100px",
       title: "状态",
       dataIndex: "stauts",
-      render: (_, record) => <Switch key={record.id} checked={record.status} />,
+      render: (_, record) => (
+        <Switch
+          key={record.id}
+          onChange={(checked) => onChangeStauts(checked, record)}
+          checked={record.status}
+        />
+      ),
     },
     {
       width: "210px",
@@ -149,8 +171,8 @@ const FormDisabledDemo = () => {
           <Button
             type="primary"
             onClick={() => {
-              setVisible(true);
               setupdataRow(record);
+              setVisible(true);
             }}
           >
             修改
@@ -213,8 +235,12 @@ const FormDisabledDemo = () => {
             </Form.Item>
           </Col>
           <Col lg={{ span: 12 }} xl={{ span: 8 }} span={12}>
-            <Form.Item label="账号状态" valuePropName="checked" name="status">
-              <Switch />
+            <Form.Item label="账号状态" name="status">
+              <Radio.Group name="status">
+                <Radio value={""}>全部</Radio>
+                <Radio value={true}>开启</Radio>
+                <Radio value={false}>停用</Radio>
+              </Radio.Group>
             </Form.Item>
           </Col>
         </Row>
@@ -231,11 +257,12 @@ const FormDisabledDemo = () => {
               onClick={() => {
                 form.resetFields();
                 form.setFieldsValue({
+                  account: "",
                   name: "",
-                  age: "",
-                  address: "",
-                  sex: "",
-                  time: [],
+                  tel: "",
+                  status: "",
+                  loginTime: null,
+                  creatTime: null,
                 });
               }}
             >
@@ -259,6 +286,7 @@ const FormDisabledDemo = () => {
           updataRow={updataRow}
           visible={visible}
           setVisible={setVisible}
+          setTabelData={setTabelData}
         />
       ) : (
         ""
